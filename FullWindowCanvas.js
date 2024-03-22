@@ -130,7 +130,36 @@ class FullWindowCanvas{
   get drawWidth(){ return this.elm.can.width; };
   get drawHeight(){ return this.elm.can.height; };
   /* 仮想上の座標から実際の描画上のサイズに変換するためのレート */
-  get getRate(){ return this.rate; };
+  getRate(){ return this.rate; };
+  getCanvas(){ return this.elm.can };
+  getContext(){ return this.con };
+  getThis(){ return this };
+
+  /* request と exit で body がいるかどうか異なる. */
+  requestFullscreen(){ document.body.requestFullscreen(); };
+  exitFullscreen(){ document.exitFullscreen(); };
+  toggleFullscreen(){
+    if(this.isFullScreen()){
+      this.exitFullscreen();
+    }else{
+      this.requestFullscreen();
+    };
+  };
+  /**
+   * フルスクリーンかどうかを返す
+   * @return {Boolean} フルスクリーンなら true、そうでないなら false
+   */
+  isFullScreen() {
+    if ((document.fullscreenElement !== undefined && document.fullscreenElement !== null) || /* HTML5 標準 */
+      (document.mozFullScreenElement !== undefined && document.mozFullScreenElement !== null) || /* Firefox */
+      (document.webkitFullscreenElement !== undefined && document.webkitFullscreenElement !== null) || /* Chrome・Safari */
+      (document.webkitCurrentFullScreenElement !== undefined && document.webkitCurrentFullScreenElement !== null) || /* Chrome・Safari (old) */
+      (document.msFullscreenElement !== undefined && document.msFullscreenElement !== null)){ /* IE・Edge Legacy */
+      return true; /* fullscreenElement に何か入ってる = フルスクリーン中 */
+    } else {
+      return false; /* フルスクリーンではない or フルスクリーン非対応の環境（iOS Safari など）*/
+    };
+  };
 
 
 /* 描画関数など ############################################################# */
